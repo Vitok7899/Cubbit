@@ -1,17 +1,22 @@
 part of 'counter_cubit.dart';
 
 @immutable
-sealed class CounterState {
-  final int counter;
+sealed class CubitState{}
 
-  const CounterState({required this.counter});
-}
+final class CubitInitial extends CubitState {}
 
-final class CounterChanged extends CounterState {
-  const CounterChanged({required super.counter});
-}
+class CubitLoaded extends CubitState {
+  final List<DogsEntity> dogList;
 
-final class Finished extends CounterState {
-  final String message;
-  const Finished(this.message): super(counter: 0);
+  CubitLoaded(this.dogList);
+
+  @override
+  bool operator == (Object other) => 
+    identical(this, other) ||
+    other is CubitLoaded &&
+        runtimeType == other.runtimeType &&
+        dogList == other.dogList;
+
+  @override
+  int get hashCode => dogList.hashCode;
 }
